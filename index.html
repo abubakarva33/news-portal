@@ -24,7 +24,18 @@
   </header>
 
   <main class="m-4">
-    <section id="categories" class="d-flex justify-content-between">
+    
+    <section id="categories" class="d-flex justify-content-between flex-wrap">
+    </section>
+    <div class="w-100 bg-secondary p-2 text-white rounded my-2 d-none" id="itemsFounded">
+      <p class="mb-0"><span id="itemsFoundedConunt">4</span> Items found for categorie <span id="itemsFoundedCategories">Entertainment</span></p>
+    </div>
+    <section>
+      <div class="d-flex justify-content-center mt-5 d-none" id="spinner">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
     </section>
     <!-- news by categories section -->
     <section id="news-section">

@@ -18,8 +18,9 @@ loadcategories()
 const displayCategories = (categories) => {
     const cat = document.getElementById('categories');
     for (const categorie of categories) {
+        document.getElementById('itemsFoundedCategories').innerText=` ${categorie.category_name}`;
         const div = document.createElement('div')
-        div.classList.add('d-flex');
+        div.classList='d-flex align-content-start flex-wrap';
         div.innerHTML = `
         <p class="p-3" onclick="newsByCategories(${categorie.category_id})">${categorie.category_name}</p>
         `
@@ -31,21 +32,25 @@ const newsByCategories = async (categoryId) => {
     const url = `https://openapi.programming-hero.com/api/news/category/0${categoryId}`;
     const res = await fetch(url)
     const data = await res.json();
+    document.getElementById('spinner').classList.remove('d-none');
     document.getElementById('news-section').textContent = '';
     if ((data.data).length === 0) {
         document.getElementById('no-news-messeage').classList.remove('d-none')
+        document.getElementById('spinner').classList.add('d-none');
     }
     else {
         document.getElementById('no-news-messeage').classList.add('d-none')
+        document.getElementById('itemsFounded').classList.remove('d-none')
     }
     const showAllBtnParent= document.getElementById('showAllBtn')
+    showAllBtnParent.textContent='';
     const showAllBtn= document.createElement('div')
     showAllBtn.classList="btn btn-danger d-none";
     showAllBtn.innerHTML=`<div onclick="loadNews(${data.data})">Show All</div>`;
     showAllBtnParent.appendChild(showAllBtn);
 
-    if((data.data).length>5){
-        loadNews((data.data).slice(0,5));
+    if((data.data).length>10){
+        loadNews((data.data).slice(0,10));
         showAllBtn.classList.remove('d-none')
     }
     else{
@@ -56,6 +61,7 @@ const newsByCategories = async (categoryId) => {
 
 const loadNews = (newss) => {
     const newsContainer = document.getElementById('news-section');
+    document.getElementById('itemsFoundedConunt').innerText= newss.length;
     for (const news of newss) {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -118,6 +124,7 @@ const loadNews = (newss) => {
         </div>
         `
         newsContainer.appendChild(div)
+        document.getElementById('spinner').classList.add('d-none');
     }
 }
 
