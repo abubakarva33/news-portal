@@ -31,6 +31,13 @@ const newsByCategories = async (categoryId) => {
     const url = `https://openapi.programming-hero.com/api/news/category/0${categoryId}`;
     const res = await fetch(url)
     const data = await res.json();
+    document.getElementById('news-section').textContent='';
+    if((data.data).length===0){
+        document.getElementById('no-news-messeage').classList.remove('d-none')
+    }
+    else{
+        document.getElementById('no-news-messeage').classList.add('d-none')
+    }
     loadNews(data.data);
 }
 
@@ -38,26 +45,23 @@ const loadNews = (newss) => {
     const newsContainer = document.getElementById('news-section');
     for (const news of newss) {
         const div = document.createElement('div');
-        div.classList.add('d-flex');
-        div.innerHTML=`
-        <img src="img/photo-1495020689067-958852a7765e.avif" alt="" class="w-25 me-4 h-100">
+        div.innerHTML = `
+        <div class="d-flex shadow p-3 mb-5 bg-body-tertiary rounded h-100" onclick="newsByCategories(${news._id})">
+        <img src="${news.image_url}" alt="" class="w-25 me-4 h-100 news-img">
         <div>
-            <h4>The best fashion influencers to follow for sartorial inspiration</h4>
-            <p>From our favourite UK influencers to the best missives from Milan and the coolest New Yorkers, readon
-                some of the best fashion blogs out there, and for even more inspiration, do head to our
-                separateblack fashion influencer round-up.Fancy some shopping deals? Check out these amazing sales:
-                Zara Black Friday, ASOS Black Friday,Missoma Black Friday and Gucci Black Friday...</p>
+            <h4>${news.title}</h4>
+            <p>${(news.details).slice(0,350)}...</p>
             <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center">
-                    <img src="img/149071.png" alt="" class="user-image me-2">
+                    <img src="${news.author.img}"" class="user-image me-2">
                     <div>
-                        <p class="mb-0">Jane Cooper</p>
-                        <p class="mb-0">date</p>
+                        <p class="mb-0">${news.author.name?? 'No Information'}</p>
+                        <p class="mb-0">${news.author.published_date}</p>
                     </div>
                 </div>
                 <div class="m-2">
                     <i class="bi bi-eye"></i>
-                    <h6>vieqw</h6>
+                    <h6>${news.total_view ?? 'No Information'}</h6>
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -95,7 +99,12 @@ const loadNews = (newss) => {
                 </div>
             </div>
         </div>
+        </div>
         `
         newsContainer.appendChild(div)
     }
+}
+
+const newsmodal= newsData=>{
+    const url = ''
 }
